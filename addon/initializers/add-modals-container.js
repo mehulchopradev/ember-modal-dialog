@@ -34,7 +34,15 @@ export default function(AppOrEngine) {
     assert(`Could not find the root Application for '${AppOrEngine}'.`);
   }
 
-  let emberModalDialog = AppOrEngine.emberModalDialog ?? App.emberModalDialog ?? {};
+  let emberModalDialog;
+  if (AppOrEngine.emberModalDialog) {
+    emberModalDialog = AppOrEngine.emberModalDialog;
+  } else if (App.emberModalDialog) {
+    emberModalDialog = App.emberModalDialog;
+  } else {
+    emberModalDialog = {};
+  }
+
   let modalContainerElId = emberModalDialog.modalRootElementId || 'modal-overlays';
 
   AppOrEngine.register(
